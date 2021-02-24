@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Player</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" integrity="sha512-PgQMlq+nqFLV4ylk1gwUOgm6CtIIXkKwaIHp/PAIWHzig/lKZSEGKEysh0TCVbHJXCLN7WetD8TFecIky75ZfQ==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    
+    <div class="main_div">
+        <div class="music_container">
+            <h2 id="title">GALAT FEHMI</h2>
+            <h3 id="artist">Asim Azhar</h3>
+            <div class="img_container">
+                <img src="images/image1.jpg" alt="">
+            </div>
+            <audio src="musics/music1.mp3" ></audio>
+           <!--controls-->
+
+            <div class="music_controls">
+                <i class="fas fa-backward" id="prev" title="Previous"></i>
+                <i class="fas fa-play main_button" id="play" title="Play"></i>
+                <i class="fas fa-forward" id="next" title="Next"></i>
+            </div>
+        </div>
+    </div>
+    <script>
+        const music = document.querySelector("audio");
+        const img = document.querySelector('img');
+        const play = document.getElementById("play");
+        const title = document.getElementById("title");
+        const artist = document.getElementById("artist");
+        const prev = document.getElementById("prev");
+        const next = document.getElementById("next");
+
+        const song = [
+            {
+            name : "music1",
+            title : 'Galat Fehmi',
+            artist : 'Asim Azhar',
+            name1 : "image1"
+            },
+            {
+            name : "music2",
+            title : 'Girls Like You',
+            artist : 'Maroon 5',
+            name1 : "image2"
+            },
+            {
+            name : "music3",
+            title : 'Memories',
+            artist : 'Maroon 5',
+            name1 : "image3"
+            },
+        ]
+
+        let isPlaying = false;
+
+          //for play function
+        const playMusic = () =>{
+            isPlaying = true;
+            music.play();
+            play.classList.replace('fa-play', 'fa-pause');
+            img.classList.add("anime");
+        };
+
+        //for pause function
+        const pauseMusic = () => {
+            isPlaying = false;
+            music.pause();
+            play.classList.replace('fa-pause', 'fa-play');
+            img.classList.remove("anime");
+        };
+
+        play.addEventListener('click',()=>{
+            isPlaying ? pauseMusic() : playMusic()
+        });
+
+        //changing audio
+        const loadSong = (song) => {
+            title.textContent = song.title;
+            artist.textContent = song.artist;
+            music.src = "musics/" + song.name + ".mp3";
+            img.src = "images/" + song.name1 + ".jpg";
+        } ;
+
+        songIndex = 0 ;
+
+        const nextSong = () => {
+            songIndex = (songIndex + 1) % song.length;
+            loadSong(song[songIndex]);
+            playMusic();
+        };
+
+        const prevSong = () => {
+            songIndex = (songIndex - 1 + song.length) % song.length;
+            loadSong(song[songIndex]);
+            playMusic();
+        };
+
+        next.addEventListener('click', nextSong);
+        prev.addEventListener('click', prevSong);
+    </script>
+</body>
+</html>
